@@ -6,6 +6,7 @@ import os
 
 from export_events import updateEvents
 from rewind7am import rewindTime
+from note import take_note
 
 # Port settings
 IP = ""
@@ -46,8 +47,9 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             # add note at specified time and refresh
             note = form.getvalue('note')
             note_time = form.getvalue('time')
-            os.chdir(rootdir)  # pop out
-            os.system('echo %s | ./note.sh %s' % (note, note_time))
+            take_note(note, note_time)
+            # os.chdir(rootdir)  # pop out
+            # os.system('echo %s | ./note.sh %s' % (note, note_time))
             updateEvents()  # defined in export_events.py
             os.chdir('render')  # go back to render
             result = 'OK'
